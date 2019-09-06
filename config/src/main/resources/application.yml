@@ -1,0 +1,27 @@
+
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/L_jiaxing/config-repo
+          username: 525504136@qq.com
+          password: bleach1126
+          basedir: D:\config
+  rabbitmq:
+    username: admin
+    password: 123456
+    port: 5672
+    host: 192.168.1.252
+    virtual-host: /
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
