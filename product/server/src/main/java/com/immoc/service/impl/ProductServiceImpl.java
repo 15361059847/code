@@ -9,7 +9,9 @@ import com.immoc.enums.ResultEnum;
 import com.immoc.exception.ProductException;
 import com.immoc.repository.ProductInfoRepository;
 import com.immoc.service.ProductService;
+import com.immoc.utils.JsonUtil;
 import com.imooc.product.common.DecreaseStockInput;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +24,13 @@ import java.util.Optional;
  * Created by lenovo on 2019/8/14.
  */
 @Service
-public class ProductServiceImpl implements ProductService {
+public class  ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductInfoRepository productInfoRepository;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public List<ProductInfo> findUpAll() {
@@ -54,6 +59,9 @@ public class ProductServiceImpl implements ProductService {
             }
             productInfo.setProductStock(result);
             productInfoRepository.save(productInfo);
+
+            //发送mq消息
+            amqpTemplate.convertAndSend("productInfo", JsonUtil.toJson(productInfo));
         }
     }
 }
