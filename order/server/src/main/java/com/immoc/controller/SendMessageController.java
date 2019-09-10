@@ -33,7 +33,7 @@ public class SendMessageController {
     public void process(){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderId("123456");
-        streamClient.output().send(
+        streamClient.input().send(
                 MessageBuilder.withPayload(orderDTO).build()
         );
     }
