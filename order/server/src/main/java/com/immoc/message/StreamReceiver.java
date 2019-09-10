@@ -19,12 +19,12 @@ public class StreamReceiver {
 //        log.info("StreamReceiver: {} ",message);
 //    }
 
-//    /**
-//     * 接收OrderDTO对象消息
-//     * @param message
-//     */
-//    @StreamListener(value = StreamClient.INPUT)
-//    public void process(OrderDTO message){
-//        log.info("StreamReceiver: {} ",message.getOrderId());
-//    }
+    /**
+     * 接收OrderDTO对象消息
+     * @param message
+     */
+    @StreamListener(value = StreamClient.INPUT)
+    public void process(OrderDTO message){
+        log.info("StreamReceiver: {} ",message.getOrderId());
+    }
 }

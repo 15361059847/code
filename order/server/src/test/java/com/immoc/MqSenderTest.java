@@ -30,4 +30,9 @@ public class MqSenderTest {
 		amqpTemplate.convertAndSend("myOrder","computer","当前时间:" + new Date() );
 	}
 
+	@Test
+	public void sendOrder2() {
+		amqpTemplate.convertAndSend("myOrder","fruit","当前时间:" + new Date() );
+	}
+
 }
