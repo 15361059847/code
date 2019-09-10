@@ -10,13 +10,22 @@ import org.springframework.messaging.SubscribableChannel;
  * Created by lenovo on 2019/9/9.
  */
 public interface StreamClient {
-    String INPUT = "myMessage1";
-    String OUTPUT = "myMessage2";
+    String INPUT1 = "myMessage1";
+    String OUTPUT1 = "myMessage2";
+
+    String INPUT2 = "myMessage3";
+    String OUTPUT2 = "myMessage4";
 
 
-    @Input(StreamClient.INPUT)
-    SubscribableChannel input();
+    @Input(StreamClient.INPUT1)
+    SubscribableChannel input1();
 
-    @Output(StreamClient.OUTPUT)
-    MessageChannel output();
+    @Output(StreamClient.OUTPUT1)
+    MessageChannel output1();
+
+    @Input(StreamClient.INPUT2)
+    SubscribableChannel input2();
+
+    @Output(StreamClient.OUTPUT2)
+    MessageChannel output2();
 }

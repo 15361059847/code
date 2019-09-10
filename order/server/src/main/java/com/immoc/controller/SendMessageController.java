@@ -22,8 +22,8 @@ public class SendMessageController {
 
 //    @GetMapping("/sendMessage")
 //    public void process(){
-//        String message = "date:" + new Date();
-//        streamClient.output().send(
+//        String message = "date" + new Date();
+//        streamClient.input1().send(
 //                MessageBuilder.withPayload(message).build()
 //        );
 //    }
@@ -33,7 +33,7 @@ public class SendMessageController {
     public void process(){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderId("123456");
-        streamClient.input().send(
+        streamClient.input1().send(
                 MessageBuilder.withPayload(orderDTO).build()
         );
     }

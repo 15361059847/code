@@ -7,11 +7,11 @@ spring:
         enabled: true
         service-id: CONFIG
       profile: order
-#    stream:
-#      binders:
-#        myMessage1:
-#          group: order
-#          content-type: application/json
+    stream:
+      binders:
+        myMessage1:
+          group: order
+          content-type: application/json
 
 
 
