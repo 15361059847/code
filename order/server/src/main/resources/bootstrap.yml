@@ -12,7 +12,10 @@ spring:
         myMessage1:
           group: order
           content-type: application/json
-
+#redis连接配置
+  redis:
+    host: 192.168.1.252
+    port: 6379
 
 
 # 切换ribbon调用规则
