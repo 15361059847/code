@@ -18,6 +18,7 @@ spring:
     port: 6379
 
 
+
 # 切换ribbon调用规则
 #PRODUCT:
 #  ribbon:
