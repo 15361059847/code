@@ -11,7 +11,7 @@ spring:
           basedir: D:\config
   rabbitmq:
     username: admin
-    password: 123456
+    password: admin
     port: 5672
     host: 192.168.1.252
     virtual-host: /

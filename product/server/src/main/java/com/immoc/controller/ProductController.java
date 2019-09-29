@@ -75,7 +75,7 @@ public class ProductController {
      * @param productIdList
      * @return
      */
-    @GetMapping("/listForOrder")
+    @PostMapping("/listForOrder")
     public List<ProductInfo> listForOrder(@RequestBody List<String> productIdList){
         return productService.findByProductIdIn(productIdList);
     }
