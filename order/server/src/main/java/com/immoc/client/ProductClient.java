@@ -16,7 +16,6 @@ public interface ProductClient {
     @GetMapping("/msg")
      String productMsg();
 
-
     @RequestMapping(value = "/listForOrder", method = RequestMethod.GET)
     List<ProductInfo> listForOrder(@RequestParam("productIdList") List<String> productIdList);
 
