@@ -16,14 +16,29 @@ spring:
   redis:
     host: 192.168.1.252
     port: 6379
-
-
-
 # 切换ribbon调用规则
 #PRODUCT:
 #  ribbon:
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+    getProductInfoList:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 
 
