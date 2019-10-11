@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@EnableCircuitBreaker
 //SpringCloudApplication 相当于上面三个
 @SpringCloudApplication
-@EnableFeignClients(basePackages = "com.immoc.client")
+@EnableFeignClients
 @EnableHystrixDashboard
 public class OrderApplication {
 

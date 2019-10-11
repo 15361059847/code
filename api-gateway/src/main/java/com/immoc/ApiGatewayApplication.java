@@ -16,6 +16,7 @@ public class ApiGatewayApplication {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
 
+	//更改配置以后动态刷新
 	@ConfigurationProperties("zuul")
     @RefreshScope
     public ZuulProperties zuulProperties(){

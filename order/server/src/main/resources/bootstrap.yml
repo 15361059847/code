@@ -16,29 +16,45 @@ spring:
   redis:
     host: 192.168.1.252
     port: 6379
+  zipkin:
+    base-url: http://192.168.1.252:9411/zipkin/
+  sleuth:
+    sampler:
+      probability: 1
+
 # 切换ribbon调用规则
 #PRODUCT:
 #  ribbon:
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
-
-
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 1000
+            timeoutInMilliseconds: 3000
     getProductInfoList:
       execution:
         isolation:
           thread:
             timeoutInMilliseconds: 1000
+# 开放健康检查接口
 management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+#开启熔断器
+feign:
+  hystrix:
+    enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug
 
 
 
