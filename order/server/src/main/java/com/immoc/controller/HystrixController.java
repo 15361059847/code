@@ -19,7 +19,6 @@ import java.util.Arrays;
 @DefaultProperties(defaultFallback = "defaultFallback")
 public class HystrixController {
 
-    //自定义降级
     @HystrixCommand(commandProperties = {
             @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),//设置熔断
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),//请求数达到后才计算
