@@ -26,7 +26,7 @@ public class HystrixController2 {
         }
         return "成功";
     }
-
+//自定义降级回滚方法，参数名要一致。
     private String test(@RequestParam("number") Integer number){
         return "请稍后再试";
     }
