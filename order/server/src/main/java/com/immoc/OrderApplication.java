@@ -16,7 +16,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //SpringCloudApplication 相当于上面三个
 @SpringCloudApplication
 @EnableFeignClients
-@EnableHystrixDashboard
+//@EnableHystrixDashboard
 public class OrderApplication {
 
 	public static void main(String[] args) {

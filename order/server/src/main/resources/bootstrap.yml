@@ -23,9 +23,9 @@ spring:
       probability: 1
 
 # 切换ribbon调用规则
-#PRODUCT:
-#  ribbon:
-#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+PRODUCT:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 hystrix:
   command:
     default:
@@ -33,7 +33,12 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 3000
-    getProductInfoList:
+    getProductInfoList2:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+    getProductInfoList1:
       execution:
         isolation:
           thread:
@@ -51,7 +56,6 @@ management:
 feign:
   hystrix:
     enabled: true
-
 logging:
   level:
     org.springframework.cloud.openfeign: debug
