@@ -26,6 +26,7 @@ spring:
 PRODUCT:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+# 服务降级配置
 hystrix:
   command:
     default:
