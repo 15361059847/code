@@ -9,4 +9,6 @@ import com.imooc.miaosha.vo.GoodsVo;
  */
 public interface MiaoshaService {
     OrderInfo miaosha(MiaoShaUser user, GoodsVo goods);
+
+    long getMiaoshaResult(Long id, long goodsId);
 }
