@@ -104,7 +104,7 @@ public class MiaoshaServiceImpl implements MiaoshaService {
             int y = rdm.nextInt(height);
             g.drawOval(x, y, 0, 0);
         }
-        // generate a random code
+        //生成随机代码
         String verifyCode = generateVerifyCode(rdm);
         g.setColor(new Color(0, 100, 0));
         g.setFont(new Font("Candara", Font.BOLD, 24));

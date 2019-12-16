@@ -1,5 +1,6 @@
 package com.imooc.miaosha.config;
 
+import com.imooc.miaosha.access.UserContext;
 import com.imooc.miaosha.user.model.MiaoShaUser;
 import com.imooc.miaosha.user.service.MiaoShaUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by lenovo on 2019/10/28.
+ * 自定义参数解析器
  */
 @Service
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
@@ -32,16 +33,16 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
-        String paramToken = request.getParameter("token");
-        String cookieToken = getCookieValue(request,"token");
-        if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
-            return null;
-        }
-        String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-        MiaoShaUser user  = miaoShaUserService.getByToken(response,token);
-        return user;
+//        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+//        HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
+//        String paramToken = request.getParameter("token");
+//        String cookieToken = getCookieValue(request,"token");
+//        if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
+//            return null;
+//        }
+//        String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+//        MiaoShaUser user  = miaoShaUserService.getByToken(response,token);
+        return UserContext.getUser();
     }
 
     private String getCookieValue(HttpServletRequest request, String cookieName) {

@@ -99,7 +99,6 @@ public class MiaoshaController implements InitializingBean {
             return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }
 
-
         //内存标记，减少redis访问
         boolean over = localOverMap.get(goodsId);
         if (over) {
@@ -159,28 +158,19 @@ public class MiaoshaController implements InitializingBean {
     }
 
 
-    @AccessLimit(seconds=5,maxCount=6,needLine=true)
+    @AccessLimit(seconds=5,maxCount=6,needLogin=true)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
     public Result<String> getMiaoshaPath(HttpServletRequest request, MiaoShaUser user,
                                          @RequestParam("goodsId") long goodsId,
-                                         @RequestParam(value = "verifyCode",defaultValue = "0") int verifyCode) {
+                                         @RequestParam("verifyCode") int verifyCode) {
         if (user == null) {
             return Result.error(CodeMsg.SERVER_ERROR);
         }
-        //防刷限流操作
-        String uri = request.getRequestURI();
-        String key = uri + "_" + user.getId();
-        Integer count = redisService.get(AccessKey.accecc,key,Integer.class);
-        if(count == null){
-            redisService.set(AccessKey.accecc,key,1);
-        }else if(count < 5 ) {
-            redisService.incr(AccessKey.accecc, key);
-        }else{
-            return Result.error(CodeMsg.ACCESS_LIMIT_REACHED);
+        boolean check = miaoshaService.checkVerifyCode(user, goodsId, verifyCode);
+        if(!check) {
+            return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }
-
-        boolean check = miaoshaService.checkVerifyCode(user,goodsId,verifyCode);
         String path = miaoshaService.createMiaoshaPath(user,goodsId);
         return Result.success(path);
     }

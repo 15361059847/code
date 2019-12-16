@@ -5,20 +5,17 @@ import com.imooc.miaosha.redis.service.RedisService;
 import com.imooc.miaosha.redis.service.impl.GoodsKey;
 import com.imooc.miaosha.result.Result;
 import com.imooc.miaosha.user.model.MiaoShaUser;
-import com.imooc.miaosha.user.service.MiaoShaUserService;
 import com.imooc.miaosha.vo.GoodsDetailVo;
 import com.imooc.miaosha.vo.GoodsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.spring5.view.reactive.ThymeleafReactiveViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,14 +36,20 @@ public class GoodsController {
     @Autowired
     private RedisService redisService;
 
+    /**
+     * 视图解析器
+     */
     @Autowired
     private ThymeleafViewResolver thymeleafViewResolver;
 
     /**
-     * 菜单详情页面
+     * 商品菜单列表
      */
     @RequestMapping(value = "/to_list",produces="text/html;charset=utf-8")
     public String tolist(HttpServletRequest request, HttpServletResponse response, Model model, MiaoShaUser user) {
+        if (user == null) {
+            return "没有登录";
+        }
         model.addAttribute("user",user);
         //取缓存
         String html = redisService.get(GoodsKey.getGoodsList,"",String.class);

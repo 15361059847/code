@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.miaosha.user.dao.UserDao" >
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.imooc.miaosha.user.model.User" >
+                <result column="id" property="id"/>
+                <result column="usercode" property="usercode"/>
+                <result column="password" property="password"/>
+                <result column="usertype" property="usertype"/>
+                <result column="status" property="status"/>
+            </resultMap>
+
+
+    <select id="findUserById" resultMap="BaseResultMap" parameterType="Object">
+        select * from user where id = #{id}
+    </select>
+
+</mapper>

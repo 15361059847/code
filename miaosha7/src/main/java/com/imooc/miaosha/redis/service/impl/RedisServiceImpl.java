@@ -24,6 +24,7 @@ public class RedisServiceImpl implements RedisService {
     public <T> T get(KeyPrefix prefix,String key , Class<T> clazz){
         Jedis jedis = null;
         try{
+            //获取连接资源
             jedis = jedisPool.getResource();
             //生成正在的key
             String realKey = prefix.getPrefix() + key;
@@ -39,7 +40,7 @@ public class RedisServiceImpl implements RedisService {
 
 
     /**
-     * 设置对象
+     * 存对象
      * */
     public <T> boolean set(KeyPrefix prefix,String key ,T value){
         Jedis jedis = null;
@@ -51,6 +52,7 @@ public class RedisServiceImpl implements RedisService {
             }
             //生成正在的key
             String realKey = prefix.getPrefix() + key;
+            //有效期
             int seconds = prefix.expireSeconds();
             if(seconds <= 0){
                 jedis.set(realKey,str);
@@ -82,7 +84,9 @@ public class RedisServiceImpl implements RedisService {
     }
 
 
-    @SuppressWarnings("unchecked")
+    /**
+     * int、String、long、json字符串
+     */
     public  <T> T stringToBean(String str, Class<T> clazz) {
         if(str == null || str.length() <= 0 || clazz == null) {
             return null;
@@ -160,6 +164,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    //关闭连接
     private void returnToPool(Jedis jedis) {
         if(jedis != null) {
             jedis.close();

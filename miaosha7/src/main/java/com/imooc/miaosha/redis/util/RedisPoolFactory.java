@@ -15,6 +15,10 @@ public class RedisPoolFactory {
     @Autowired
     private RedisConfig redisConfig;
 
+    /**
+     * JedisPool 连接池，返回一个连接对象。
+     * @return
+     */
     @Bean
     public JedisPool JedisPoolFactory(){
         JedisPoolConfig config= new JedisPoolConfig();

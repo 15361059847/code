@@ -1,42 +1,83 @@
 package com.imooc.miaosha.access;
 
+import com.alibaba.fastjson.JSON;
+import com.imooc.miaosha.redis.service.RedisService;
+import com.imooc.miaosha.redis.service.impl.AccessKey;
+import com.imooc.miaosha.result.CodeMsg;
+import com.imooc.miaosha.result.Result;
 import com.imooc.miaosha.user.model.MiaoShaUser;
 import com.imooc.miaosha.user.service.MiaoShaUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.HandlerMethod;
+import org.springframework.stereotype.Service;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * Created by lenovo on 2019/12/6.
+ * 拦截器，锅炉器
  */
+@Service
 public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private MiaoShaUserService miaoShaUserService;
 
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(handler instanceof HandlerMethod){
-            getMiaoShaUser(request,response);
+    @Autowired
+    private RedisService redisService;
 
-            HandlerMethod hm =(HandlerMethod) handler;
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,Object handler) throws Exception {
+        if(handler instanceof HandlerMethod) {
+            MiaoShaUser user = getUser(request, response);
+            UserContext.setUser(user);
+            HandlerMethod hm = (HandlerMethod)handler;
             AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);
-            if(accessLimit == null){
+            if(accessLimit == null) {
                 return true;
             }
-            accessLimit.seconds();
-            accessLimit.maxCount();
-            accessLimit.needLine();
+            int seconds = accessLimit.seconds();
+            int maxCount = accessLimit.maxCount();
+            boolean needLogin = accessLimit.needLogin();
+            String key = request.getRequestURI();
+            if(needLogin) {
+                if(user == null) {
+                    render(response, CodeMsg.SESSION_ERROR);
+                    return false;
+                }
+                key += "_" + user.getId();
+            }else {
+                //do nothing
+            }
+            AccessKey ak = AccessKey.withExpire(seconds);
+            Integer count = redisService.get(ak, key, Integer.class);
+            if(count  == null) {
+                redisService.set(ak, key, 1);
+            }else if(count < maxCount) {
+                redisService.incr(ak, key);
+            }else {
+                render(response, CodeMsg.ACCESS_LIMIT_REACHED);
+                return false;
+            }
         }
-
         return true;
     }
 
-    private MiaoShaUser getMiaoShaUser(HttpServletRequest request,HttpServletResponse response){
+    private void render(HttpServletResponse response,CodeMsg cms) throws IOException {
+         response.setContentType("application/json;charset-UTF-8");
+         OutputStream out = response.getOutputStream();
+         String str = JSON.toJSONString(Result.error(cms));
+         out.write(str.getBytes("UTF-8"));
+         out.flush();
+         out.close();
+    }
+
+
+    private MiaoShaUser getUser(HttpServletRequest request,HttpServletResponse response){
         String paramToken = request.getParameter("token");
         String cookieToken = getCookieValue(request,"token");
         if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
