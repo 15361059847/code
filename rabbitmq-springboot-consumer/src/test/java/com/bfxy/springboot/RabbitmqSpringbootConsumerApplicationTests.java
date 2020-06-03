@@ -1,14 +1,13 @@
-package com.imooc;
+package com.bfxy.springboot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MiaoshaIdeaApplicationTests {
+class RabbitmqSpringbootConsumerApplicationTests {
 
 	@Test
 	void contextLoads() {
 	}
-
 
 }

@@ -31,6 +31,7 @@ public class LoginController {
     //跳转到登录页面。
     @RequestMapping("/toLogin")
     public ModelAndView toLogin() {
+        int i= 1/0;
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/login.html");
         return mv;

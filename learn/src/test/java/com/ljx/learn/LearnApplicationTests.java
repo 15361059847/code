@@ -1,14 +1,13 @@
-package com.imooc;
+package com.ljx.learn;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MiaoshaIdeaApplicationTests {
+class LearnApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 
 }

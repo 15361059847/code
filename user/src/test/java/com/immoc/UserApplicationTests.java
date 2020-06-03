@@ -13,4 +13,10 @@ public class UserApplicationTests {
 	public void contextLoads() {
 	}
 
+	@Test
+	public void test() {
+
+		System.out.println("12312");
+	}
+
 }

@@ -1,0 +1,18 @@
+#server:
+#  port: 8081
+spring:
+  profiles:
+    active: @profileActive@
+
+#  Mybatis 设置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mybatis-mapper/**/**Mapper.xml
+  typeAliasesPackage: com.ljx.learn.**.dao
+mapper:
+  mappers:
+    - tk.mybatis.springboot.util.MyMapper
+  not-empty: false
+  identity: MYSQL
+
